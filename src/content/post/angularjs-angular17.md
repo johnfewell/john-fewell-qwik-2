@@ -128,7 +128,7 @@ Here's a breakdown of the code:
 
 - `directive("angular17App"`: This looks for the name of the Angular custom element we created. In this case, it will look for the element name `angular17-app` in the DOM.
 
-- `restrict: "E" means the directive is restricted to only being activated when it is used as an element.
+- `restrict: "E"` means the directive is restricted to only being activated when it is used as an element.
 
 - `scope: { state: "=", onNotify: "&" }`: This creates an isolated scope for the directive. The `state` property is a two-way binding, meaning changes in the parent scope and the directive's scope reflect each other. With AngularJS 1.5 and above, one-way binding is supported.
 - The `onNotify` property is a method binding, which allows the directive to execute a function in the parent scope.

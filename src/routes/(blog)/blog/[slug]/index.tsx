@@ -7,7 +7,24 @@ import type {
 } from '@builder.io/qwik-city';
 import type { Post } from '~/types';
 
+import Prism from 'prismjs';
 import md from 'markdown-it';
+import markdownItPrism from 'markdown-it-prism';
+
+// Initialize markdown-it with markdown-it-prism plugin
+const mdParser = md({
+  html: true,
+  highlight: function (str, lang) {
+    if (lang && Prism.languages[lang]) {
+      try {
+        return Prism.highlight(str, Prism.languages[lang], lang);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return '';
+  },
+}).use(markdownItPrism);
 
 import { fetchPosts, findPostBySlug } from '~/utils/posts';
 
@@ -61,10 +78,8 @@ export default component$(() => {
           )}
         </header>
         <div
-          class="prose-md prose-headings:font-heading prose-headings:leading-tighter container prose prose-lg mx-auto mt-8 max-w-3xl px-6 prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-primary-600 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-300 dark:prose-a:text-primary-400 sm:px-6 lg:prose-xl"
-          dangerouslySetInnerHTML={md({
-            html: true,
-          }).render(post.content)}
+          class="prose-md prose-headings:font-heading prose-headings:leading-tighter container prose prose-lg mx-auto mt-8 max-w-3xl px-6 prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-primary-600 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-300 dark:prose-a:text-primary-400 sm:px-6 lg:prose-xl prose-code:before:hidden prose-code:after:hidden"
+          dangerouslySetInnerHTML={mdParser.render(post.content)}
         />
       </article>
     </section>
