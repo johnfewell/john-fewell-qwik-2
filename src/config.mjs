@@ -1,12 +1,10 @@
 export const SITE = {
-  name: "Qwind",
+  name: 'John Fewell',
 
-  title:
-    "Qwind — Free template for Qwik + Tailwind CSS to build your new website.",
+  title: 'John Fewell — Web Developer',
   description:
-    "Qwind is a free and ready to start template to make your website using Qwik and Tailwind CSS.",
-
-  origin: "https://qwind.pages.dev",
-  basePathname: "/",
+    'John Fewell is a web developer who specializes in building web applications using Angular and Qwik. He is also a musician.',
+  origin: 'https://johnfewell.com',
+  basePathname: '/',
   trailingSlash: true,
 };

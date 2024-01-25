@@ -1,12 +1,15 @@
-import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { component$ } from '@builder.io/qwik';
+import { routeLoader$ } from '@builder.io/qwik-city';
 
-import type { DocumentHead, StaticGenerateHandler } from "@builder.io/qwik-city";
-import type { Post } from "~/types";
+import type {
+  DocumentHead,
+  StaticGenerateHandler,
+} from '@builder.io/qwik-city';
+import type { Post } from '~/types';
 
-import md from "markdown-it";
+import md from 'markdown-it';
 
-import { fetchPosts, findPostBySlug } from "~/utils/posts";
+import { fetchPosts, findPostBySlug } from '~/utils/posts';
 
 export const useGetPostBySlug = routeLoader$(async ({ params, status }) => {
   const post = await findPostBySlug(params.slug);
@@ -26,14 +29,14 @@ export default component$(() => {
   return (
     <section class="mx-auto py-8 sm:py-16 lg:py-20">
       <article>
-        <header class={post.image ? "text-center" : ""}>
+        <header class={post.image ? 'text-center' : ''}>
           <p class="mx-auto max-w-3xl px-4 sm:px-6">
             <time dateTime={String(post.publishDate.getTime())}>
-              {post.publishDate.toLocaleDateString("en-us", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                timeZone: "UTC",
+              {post.publishDate.toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                timeZone: 'UTC',
               })}
             </time>
             {/* ~{" "} {Math.ceil(post.readingTime)} min read */}
@@ -80,10 +83,10 @@ export const head: DocumentHead = ({ resolveValue }) => {
   const post = resolveValue(useGetPostBySlug) as Post;
 
   return {
-    title: `${post.title} — Qwind`,
+    title: `${post.title} — John Fewell`,
     meta: [
       {
-        name: "description",
+        name: 'description',
         content: post.excerpt,
       },
     ],

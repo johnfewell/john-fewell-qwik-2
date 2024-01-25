@@ -3,7 +3,7 @@ import headShot from '~/assets/images/home-computer.webp';
 
 export default component$(() => {
   return (
-    <div class="bar h-full">
+    <div class="bar">
       <canvas id="animation"></canvas>
       <section class={`hero-gradient dark:bg-none mt-[-72px] h-full`}>
         <div class="max-w-6xl mx-auto md:flex  2xl:h-auto pt-[72px]">
