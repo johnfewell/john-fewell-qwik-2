@@ -3,6 +3,7 @@
   "description": "A template to make your website using Qwik + Tailwind CSS.",
   "version": "0.119.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "qwik build && jampack ./dist",
     "build.client": "vite build",
@@ -27,6 +28,7 @@
     "gray-matter": "^4.0.3",
     "markdown-it": "^14.0.0",
     "node-fetch": "3.3.2",
+    "sharp": "^0.33.2",
     "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
