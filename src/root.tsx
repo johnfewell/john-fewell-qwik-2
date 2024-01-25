@@ -25,13 +25,14 @@ export default component$(() => {
   return (
     <QwikCityProvider>
       <head>
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "8b78ef5c9b154436b6b8795a026af97c"}'
+        ></script>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="manifest" href="/manifest.json" />
-        {/* <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-          rel="stylesheet"
-        /> */}
         <RouterHead />
         <DarkThemeLauncher />
         <ServiceWorkerRegister />
