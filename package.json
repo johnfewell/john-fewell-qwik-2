@@ -27,6 +27,8 @@
     "@unpic/qwik": "^0.0.38",
     "gray-matter": "^4.0.3",
     "markdown-it": "^14.0.0",
+    "markdown-it-prism": "^2.3.0",
+    "prismjs": "^1.29.0",
     "node-fetch": "3.3.2",
     "sharp": "^0.33.2",
     "tailwind-merge": "^2.2.0"
@@ -39,6 +41,7 @@
     "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",
+    "@types/prismjs": "^1.26.3",
     "autoprefixer": "10.4.17",
     "eslint": "8.56.0",
     "eslint-plugin-qwik": "1.4.0",
