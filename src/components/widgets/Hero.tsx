@@ -27,7 +27,7 @@ export default component$(() => {
             <div class="flex flex-col justify-end">
               <div>
                 <h1
-                  class="tracking-wider cursor-pointer leading-none"
+                  class="tracking-wider cursor-pointer leading-none moveup-text"
                   onClick$={() =>
                     window.open(
                       'https://github.com/johnfewell',
@@ -38,11 +38,11 @@ export default component$(() => {
                 >
                   WORK
                 </h1>
-                <h1 class="tracking-wider cursor-pointer leading-none">
+                <h1 class="tracking-wider cursor-pointer leading-none moveup-text">
                   <a href="/about/">ABOUT</a>
                 </h1>
                 <h1
-                  class="tracking-wider cursor-pointer leading-none"
+                  class="tracking-wider cursor-pointer leading-none moveup-text"
                   onClick$={() =>
                     window.open('mailto:fewell@gmail.com', 'noreferrer')
                   }

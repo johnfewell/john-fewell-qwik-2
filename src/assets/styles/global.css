@@ -164,3 +164,27 @@ body,
 main {
   height: 100%;
 }
+
+@keyframes moveUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes blurToUnblur {
+  from {
+    filter: blur(25px);
+  }
+  to {
+    filter: blur(0);
+  }
+}
+
+.moveup-text {
+  animation:
+    moveUp 1s cubic-bezier(0.4, 0, 0.2, 1),
+    blurToUnblur 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
