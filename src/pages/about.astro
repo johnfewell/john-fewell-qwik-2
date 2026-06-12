@@ -1,0 +1,10 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import About from '~/components/widgets/About.astro';
+
+import { SITE } from '~/config.mjs';
+---
+
+<Layout title={SITE.title} description={SITE.description}>
+  <About />
+</Layout>

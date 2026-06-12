@@ -1,58 +1,42 @@
 {
-  "name": "qwind",
-  "description": "A template to make your website using Qwik + Tailwind CSS.",
+  "name": "john-fewell-astro",
+  "description": "Personal site of John Fewell, built with Astro + React + Tailwind CSS.",
   "version": "0.119.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "qwik build && jampack ./dist",
-    "build.client": "vite build",
-    "build.preview": "vite build --ssr src/entry.preview.tsx",
-    "build.server": "vite build -c adapters/static/vite.config.ts",
-    "build.types": "tsc --incremental --noEmit",
-    "deploy": "echo 'Run \"npm run qwik add\" to install a server adapter'",
-    "dev": "vite --mode ssr",
-    "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
+    "dev": "astro dev",
+    "start": "astro dev --open",
+    "build": "astro build && jampack ./dist",
+    "preview": "astro preview --open",
+    "build.types": "astro check",
     "fmt": "prettier --write .",
-    "fmt.check": "prettier --check .",
-    "lint": "eslint \"src/**/*.ts*\"",
-    "preview": "qwik build preview && vite preview --open",
-    "start": "vite --open --mode ssr",
-    "qwik": "qwik"
-  },
-  "dependencies": {
-    "@builder.io/qwik": "1.4.0",
-    "@builder.io/qwik-city": "1.4.0",
-    "@fontsource-variable/inter": "^5.0.16",
-    "@unpic/qwik": "^0.0.38",
-    "gray-matter": "^4.0.3",
-    "markdown-it": "^14.0.0",
-    "markdown-it-prism": "^2.3.0",
-    "prismjs": "^1.29.0",
-    "node-fetch": "3.3.2",
-    "sharp": "^0.33.2",
-    "tailwind-merge": "^2.2.0"
-  },
-  "devDependencies": {
-    "@divriots/jampack": "^0.23.2",
-    "@tailwindcss/typography": "^0.5.10",
-    "@types/eslint": "8.56.2",
-    "@types/markdown-it": "^13.0.7",
-    "@types/node": "latest",
-    "@typescript-eslint/eslint-plugin": "6.19.0",
-    "@typescript-eslint/parser": "6.19.0",
-    "@types/prismjs": "^1.26.3",
-    "autoprefixer": "10.4.17",
-    "eslint": "8.56.0",
-    "eslint-plugin-qwik": "1.4.0",
-    "postcss": "^8.4.33",
-    "prettier": "3.2.4",
-    "tailwindcss": "^3.4.1",
-    "typescript": "5.3.3",
-    "vite": "5.0.12",
-    "vite-tsconfig-paths": "4.3.1"
+    "fmt.check": "prettier --check ."
   },
   "engines": {
-    "node": ">=15.0.0"
+    "node": ">=18.17.0"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.20",
+    "astro": "^5.18.2",
+    "markdown-it": "^14.2.0",
+    "markdown-it-prism": "^3.0.1",
+    "prismjs": "^1.30.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "sharp": "^0.35.1",
+    "tailwindcss": "^3.4.19"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@divriots/jampack": "^0.34.1",
+    "@types/markdown-it": "^14.1.2",
+    "@types/prismjs": "^1.26.6",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "prettier": "^3.8.4",
+    "typescript": "^5.9.3"
   }
 }

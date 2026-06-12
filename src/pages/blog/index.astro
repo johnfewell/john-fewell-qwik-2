@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from '~/layouts/Layout.astro';
+import { SITE } from '~/config.mjs';
+
+const posts = (await getCollection('post', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+---
+
+<Layout title="Blog — John Fewell" description={SITE.description}>
+  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-3xl">
+    <header>
+      <h1
+        class="text-center text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-8 md:mb-16 font-heading"
+      >
+        Blog
+      </h1>
+    </header>
+    <ul>
+      {
+        posts.map((post) => (
+          <li class="mb-10 md:mb-16">
+            <article
+              class={`max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 ${post.data.image ? 'md:grid-cols-2' : ''}`}
+            >
+              {post.data.image && (
+                <a class="relative block group" href={`/blog/${post.id}`}>
+                  <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-80 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
+                    <img
+                      src={post.data.image}
+                      class="absolute inset-0 object-cover w-full h-full mb-6 rounded shadow-lg bg-gray-400 dark:bg-slate-700"
+                      sizes="(max-width: 900px) 400px, 900px"
+                      alt={post.data.title}
+                      width={900}
+                      height={400}
+                    />
+                  </div>
+                </a>
+              )}
+              <div>
+                <header>
+                  <h2 class="text-xl sm:text-2xl font-bold leading-snug mb-2 font-heading">
+                    <a
+                      class="hover:text-primary-600 underline underline-offset-4 decoration-1 decoration-dotted transition ease-in duration-200"
+                      href={`/blog/${post.id}`}
+                    >
+                      {post.data.title}
+                    </a>
+                  </h2>
+                </header>
+                <p class="text-md sm:text-lg flex-grow">
+                  {post.data.excerpt || post.data.description}
+                </p>
+                <footer class="mt-4">
+                  <div>
+                    <span class="text-gray-500 dark:text-slate-400">
+                      <time datetime={String(post.data.publishDate.getTime())}>
+                        {post.data.publishDate.toLocaleDateString('en-us', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          timeZone: 'UTC',
+                        })}
+                      </time>
+                    </span>
+                  </div>
+                </footer>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>
