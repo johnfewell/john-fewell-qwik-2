@@ -81,6 +81,39 @@
   animation: gradient 25s ease infinite;
 }
 
+/* Sakura Fall: falling-blossom canvas above the haze, below the content
+   (see design/sakura-fall-philosophy.md) */
+.lucid-petals {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Lucid Drift: alternate generative direction (wisps masked by the wandering
+   attention spot). Swap the canvas class + import in LucidLayout.astro to use.
+   See design/lucid-drift-philosophy.md */
+.lucid-drift {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--mx, 68%) var(--my, 35%),
+    rgba(0, 0, 0, 1) 0px,
+    rgba(0, 0, 0, 0.8) 240px,
+    rgba(0, 0, 0, 0.45) 640px
+  );
+  mask-image: radial-gradient(
+    circle at var(--mx, 68%) var(--my, 35%),
+    rgba(0, 0, 0, 1) 0px,
+    rgba(0, 0, 0, 0.8) 240px,
+    rgba(0, 0, 0, 0.45) 640px
+  );
+}
+
 .lucid-overlay {
   position: absolute;
   inset: 0;
