@@ -19,6 +19,7 @@ const { title, description, active } = Astro.props;
       <LucidHeader active={active} />
       <slot />
     </div>
+    <canvas class="lucid-petals-front" aria-hidden="true"></canvas>
   </div>
 </Layout>
 
@@ -35,7 +36,8 @@ const { title, description, active } = Astro.props;
   import { startLucidPetals } from '~/components/common/lucidPetals';
 
   const petalCanvas = document.querySelector<HTMLCanvasElement>('.lucid-petals');
-  if (petalCanvas) startLucidPetals(petalCanvas);
+  const petalFront = document.querySelector<HTMLCanvasElement>('.lucid-petals-front');
+  if (petalCanvas) startLucidPetals(petalCanvas, petalFront);
 
   const surface = document.querySelector<HTMLElement>('.lucid-surface');
   if (surface && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
