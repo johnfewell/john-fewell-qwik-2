@@ -8,9 +8,10 @@ import { SITE } from '~/config.mjs';
 export interface Props {
   title?: string;
   description?: string;
+  noHeader?: boolean;
 }
 
-const { title = SITE.title, description = SITE.description } = Astro.props;
+const { title = SITE.title, description = SITE.description, noHeader = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.origin);
 ---
 
@@ -42,7 +43,7 @@ const canonical = new URL(Astro.url.pathname, SITE.origin);
   <body
     class="text-gray-900 dark:text-slate-300 tracking-tight bg-white dark:bg-gray-900 antialiased"
   >
-    <Header client:load />
+    {!noHeader && <Header client:load />}
     <main>
       <slot />
     </main>

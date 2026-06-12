@@ -1,0 +1,35 @@
+---
+// TODO: replace placeholder projects with real ones (titles, years, stacks, links).
+const projects = [
+  { title: 'PROJECT ONE', meta: '01 / 2026 — Angular / TypeScript / RxJS / NgRx' },
+  { title: 'PROJECT TWO', meta: '02 / 2025 — Qwik / Tailwind / Partytown' },
+  { title: 'PROJECT THREE', meta: '03 / 2024 — Storybook / SASS / Web Components' },
+];
+---
+
+<div class="flex-1 flex flex-col px-5 sm:px-12 pb-11 min-h-0">
+  <div class="flex justify-center flex-none pt-2">
+    <div class="eyebrow-sm">Work — selected projects</div>
+  </div>
+  <div
+    class="flex-1 flex flex-col justify-center items-center min-h-0 overflow-hidden"
+    style="gap: clamp(20px, 3.5vh, 36px)"
+  >
+    {
+      projects.map((project) => (
+        <div class="flex flex-col items-center gap-2">
+          <h1
+            class="display-text tracking-wider leading-none moveup-text text-center cursor-pointer"
+            style="font-size: clamp(48px, 7vw, 110px)"
+          >
+            {project.title}
+          </h1>
+          <div class="eyebrow-sm opacity-[0.85] text-center">{project.meta}</div>
+        </div>
+      ))
+    }
+  </div>
+  <div class="flex justify-center flex-none">
+    <a class="fancy-button" href="https://github.com/johnfewell" target="_blank" rel="noreferrer"> GitHub </a>
+  </div>
+</div>
