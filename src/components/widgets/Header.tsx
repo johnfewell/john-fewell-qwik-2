@@ -4,7 +4,7 @@ import Logo from '~/components/common/Logo';
 import ToggleTheme from '~/components/common/ToggleTheme';
 import ToggleMenu from '~/components/common/ToggleMenu';
 
-const menuItems = [{ text: 'Blog', href: '/blog' }];
+const menuItems = [{ text: 'Blog', href: '/blog/' }];
 
 export default () => {
   const [isScrolling, setIsScrolling] = useState(false);
@@ -13,6 +13,7 @@ export default () => {
     const onScroll = () => {
       setIsScrolling(window.scrollY >= 10);
     };
+    onScroll();
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);

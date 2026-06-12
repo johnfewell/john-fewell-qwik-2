@@ -8,7 +8,7 @@ import markdownItPrism from 'markdown-it-prism';
 import Layout from '~/layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('post');
+  const posts = await getCollection('post', ({ data }) => !data.draft);
 
   return posts.map((post) => ({
     params: { slug: post.id },
@@ -40,7 +40,7 @@ const content = mdParser.render(post.body ?? '');
     <article>
       <header class={post.data.image ? 'text-center' : ''}>
         <p class="mx-auto max-w-3xl px-4 sm:px-6">
-          <time datetime={String(post.data.publishDate.getTime())}>
+          <time datetime={post.data.publishDate.toISOString()}>
             {
               post.data.publishDate.toLocaleDateString('en-us', {
                 year: 'numeric',
