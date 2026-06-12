@@ -45,3 +45,8 @@ tmp
 
 # Astro
 .astro/
+
+# Impeccable design skill (local tooling, not project source)
+.claude/skills/impeccable/
+.claude/agents/impeccable-manual-edit-applier.md
+.impeccable/

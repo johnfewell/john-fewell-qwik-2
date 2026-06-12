@@ -43,7 +43,7 @@
 :root {
   --text-display: #3c3b3b;
   --text-body: #374151;
-  --text-muted: #6b7280;
+  --text-muted: #4b5563;
   --surface-button: #3c3b3b;
   --text-on-dark: #ece7e1;
   --lucid-overlay-bg: linear-gradient(
@@ -306,4 +306,26 @@ main {
   animation:
     moveUp 1s cubic-bezier(0.4, 0, 0.2, 1),
     blurToUnblur 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Visible, theme-aware keyboard focus. --text-display is near-black in light
+   mode and cream in dark, so the ring stays legible over the gradient in both. */
+.lucid-nav-link:focus-visible,
+.lucid-toggle:focus-visible,
+.lucid-content a:focus-visible {
+  outline: 2px solid var(--text-display);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Honor reduced-motion: the JS petal/drift/wander layers already bail; these
+   are the remaining CSS-driven motions (the looping surface gradient and the
+   hero entrance). Content rests at its natural, fully-visible state. */
+@media (prefers-reduced-motion: reduce) {
+  .lucid-surface {
+    animation: none;
+  }
+  .moveup-text {
+    animation: none;
+  }
 }
