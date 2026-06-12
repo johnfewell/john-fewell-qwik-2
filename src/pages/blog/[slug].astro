@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+
+import Prism from 'prismjs';
+import md from 'markdown-it';
+import markdownItPrism from 'markdown-it-prism';
+
+import Layout from '~/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('post', ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const mdParser = md({
+  html: true,
+  highlight: function (str, lang) {
+    if (lang && Prism.languages[lang]) {
+      try {
+        return Prism.highlight(str, Prism.languages[lang], lang);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return '';
+  },
+}).use(markdownItPrism);
+
+const content = mdParser.render(post.body ?? '');
+---
+
+<Layout
+  title={`${post.data.title} — John Fewell`}
+  description={post.data.excerpt ?? post.data.description}
+>
+  <section class="mx-auto py-8 sm:py-16 lg:py-20">
+    <article>
+      <header class={post.data.image ? 'text-center' : ''}>
+        <p class="mx-auto max-w-3xl px-4 sm:px-6">
+          <time datetime={post.data.publishDate.toISOString()}>
+            {
+              post.data.publishDate.toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                timeZone: 'UTC',
+              })
+            }
+          </time>
+        </p>
+        <h1
+          class="leading-tighter font-heading mx-auto mb-8 max-w-3xl px-4 text-4xl font-bold tracking-tighter sm:px-6 md:text-5xl"
+        >
+          {post.data.title}
+        </h1>
+        {
+          post.data.image ? (
+            <img
+              src={post.data.image}
+              class="mx-auto mt-4 mb-6 max-w-full bg-gray-400 dark:bg-slate-700 sm:rounded-md lg:max-w-6xl"
+              sizes="(max-width: 900px) 400px, 900px"
+              alt={post.data.excerpt}
+              loading="eager"
+              width={900}
+              height={480}
+            />
+          ) : (
+            <div class="mx-auto max-w-3xl px-4 sm:px-6">
+              <div class="border-t dark:border-slate-700" />
+            </div>
+          )
+        }
+      </header>
+      <div
+        class="prose-md prose-headings:font-heading prose-headings:leading-tighter container prose prose-lg mx-auto mt-8 max-w-3xl px-6 prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-primary-600 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-300 dark:prose-a:text-primary-400 sm:px-6 lg:prose-xl prose-code:before:hidden prose-code:after:hidden"
+        set:html={content}
+      />
+    </article>
+  </section>
+</Layout>

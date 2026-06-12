@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "qwik-project-name",
-  "short_name": "Welcome to Qwik",
+  "name": "John Fewell — Web Developer",
+  "short_name": "John Fewell",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#fff",
-  "description": "A Qwik project app."
+  "description": "Personal site and blog of John Fewell, web developer."
 }
