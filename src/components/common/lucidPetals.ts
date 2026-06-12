@@ -34,10 +34,15 @@ interface Petal {
   color: [number, number, number];
 }
 
-export function startLucidPetals(canvas: HTMLCanvasElement) {
+export function startLucidPetals(canvas: HTMLCanvasElement, frontCanvas?: HTMLCanvasElement | null) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
+  const ctxFront = frontCanvas?.getContext('2d') ?? null;
+  // Near petals (depth ≥ this) draw to the front canvas, which is composited
+  // over the text with a blend — a blossom crossing the H1 glows/mixes through
+  // the letterforms instead of flatly occluding them.
+  const FRONT_DEPTH = 0.78;
 
   const noise = makeNoise(SEED);
   const rand = mulberry32(SEED ^ 0x9e3779b9);
@@ -79,6 +84,11 @@ export function startLucidPetals(canvas: HTMLCanvasElement) {
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (frontCanvas && ctxFront) {
+      frontCanvas.width = canvas.width;
+      frontCanvas.height = canvas.height;
+      ctxFront.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
     const count = Math.min(160, Math.max(40, Math.round((w * h) / 11000)));
     petals = Array.from({ length: count }, () => {
       const petal = {} as Petal;
@@ -88,13 +98,13 @@ export function startLucidPetals(canvas: HTMLCanvasElement) {
   };
 
   // Sakura silhouette: soft oval with the notched tip, in unit size.
-  const tracePetal = (s: number) => {
-    ctx.beginPath();
-    ctx.moveTo(0, -s * 0.5);
-    ctx.bezierCurveTo(s * 0.55, -s * 0.45, s * 0.5, s * 0.3, s * 0.12, s * 0.5);
-    ctx.quadraticCurveTo(0, s * 0.32, -s * 0.12, s * 0.5);
-    ctx.bezierCurveTo(-s * 0.5, s * 0.3, -s * 0.55, -s * 0.45, 0, -s * 0.5);
-    ctx.closePath();
+  const tracePetal = (c: CanvasRenderingContext2D, s: number) => {
+    c.beginPath();
+    c.moveTo(0, -s * 0.5);
+    c.bezierCurveTo(s * 0.55, -s * 0.45, s * 0.5, s * 0.3, s * 0.12, s * 0.5);
+    c.quadraticCurveTo(0, s * 0.32, -s * 0.12, s * 0.5);
+    c.bezierCurveTo(-s * 0.5, s * 0.3, -s * 0.55, -s * 0.45, 0, -s * 0.5);
+    c.closePath();
   };
 
   let last = performance.now();
@@ -115,6 +125,7 @@ export function startLucidPetals(canvas: HTMLCanvasElement) {
     const blow = blowRamp * blowRamp;
 
     ctx.clearRect(0, 0, w, h);
+    ctxFront?.clearRect(0, 0, w, h);
 
     for (const petal of petals) {
       // Shared wind field: neighbors lean together, never in lockstep.
@@ -137,17 +148,18 @@ export function startLucidPetals(canvas: HTMLCanvasElement) {
       if (petal.x < -120) petal.x = w + 100;
       else if (petal.x > w + 120) petal.x = -100;
 
+      const c = ctxFront && petal.depth >= FRONT_DEPTH ? ctxFront : ctx;
       const [r, g, b] = petal.color;
       const alpha = (dark ? 0.65 : 0.9) * (0.4 + 0.6 * petal.depth) * (0.55 + 0.45 * Math.abs(face));
 
-      ctx.save();
-      ctx.translate(petal.x, petal.y);
-      ctx.rotate(petal.angle);
-      ctx.scale(1, 0.35 + 0.65 * Math.abs(face)); // fake 3D flip
-      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`;
-      tracePetal(petal.size);
-      ctx.fill();
-      ctx.restore();
+      c.save();
+      c.translate(petal.x, petal.y);
+      c.rotate(petal.angle);
+      c.scale(1, 0.35 + 0.65 * Math.abs(face)); // fake 3D flip
+      c.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`;
+      tracePetal(c, petal.size);
+      c.fill();
+      c.restore();
     }
 
     raf = requestAnimationFrame(frame);

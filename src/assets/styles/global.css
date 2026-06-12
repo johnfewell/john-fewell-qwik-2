@@ -76,6 +76,7 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  isolation: isolate; /* contain the front-petal blend to this surface */
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   animation: gradient 25s ease infinite;
@@ -89,6 +90,29 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+/* Front blossom layer: the near petals, composited over the text. The blend
+   makes a petal read as a glow where it crosses the dark display type and all
+   but vanish over the light ground, so the overlap with the H1 lights up. Dark
+   mode inverts the contrast (light text on dark ground), so it switches to a
+   darken blend that tints the letters instead. */
+.lucid-petals-front {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  /* screen (not plus-lighter) keeps the glow from blooming and overpowering the
+     text; opacity holds it back to a hint so it never competes with reading. */
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+.dark .lucid-petals-front {
+  mix-blend-mode: multiply;
+  opacity: 1;
 }
 
 /* Lucid Drift: alternate generative direction (wisps masked by the wandering
