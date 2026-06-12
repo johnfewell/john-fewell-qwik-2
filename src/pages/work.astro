@@ -1,0 +1,10 @@
+---
+import LucidLayout from '~/layouts/LucidLayout.astro';
+import Work from '~/components/widgets/Work.astro';
+
+import { SITE } from '~/config.mjs';
+---
+
+<LucidLayout title={SITE.title} description={SITE.description} active="work">
+  <Work />
+</LucidLayout>
