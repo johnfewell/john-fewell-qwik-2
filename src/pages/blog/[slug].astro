@@ -35,7 +35,10 @@ const mdParser = md({
 const content = mdParser.render(post.body ?? '');
 ---
 
-<Layout title={`${post.data.title} — John Fewell`} description={post.data.excerpt}>
+<Layout
+  title={`${post.data.title} — John Fewell`}
+  description={post.data.excerpt ?? post.data.description}
+>
   <section class="mx-auto py-8 sm:py-16 lg:py-20">
     <article>
       <header class={post.data.image ? 'text-center' : ''}>
