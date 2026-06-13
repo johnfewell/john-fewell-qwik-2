@@ -242,6 +242,89 @@
   display: none;
 }
 
+/* Mobile menu: a full-screen native dialog (free focus trap + Escape) where the
+   nav links become the page — giant display type in the site's own voice. The
+   background reuses the themed haze tokens so it still reads as the Lucid world. */
+.lucid-menu[open] {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--lucid-overlay-bg);
+  background-color: #d9a983;
+}
+
+.dark .lucid-menu[open] {
+  background-color: rgb(4 4 18);
+}
+
+.lucid-menu::backdrop {
+  background: transparent;
+}
+
+/* The text buttons (Menu / Close) share nav-link styling; the padding + negative
+   margin grow the tap target toward 44px without shifting the visual edge. */
+.lucid-menu-button {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 14px 10px;
+  margin: -14px -10px;
+}
+
+/* The wrapper masks the slide-up entrance; it carries the type size so its
+   horizontal padding (in em) keeps the hanging active-dot inside the clip
+   region without shifting the centered label. */
+.lucid-menu-item {
+  overflow: hidden;
+  font-size: clamp(56px, 15vw, 120px);
+  padding: 0 0.45em;
+}
+
+.lucid-menu-link {
+  position: relative;
+  font-family: 'fits', serif;
+  font-weight: 100;
+  font-size: 1em;
+  line-height: 1.05;
+  color: var(--text-display);
+  text-decoration: none;
+  font-variation-settings: 'wdth' 100;
+  transition: font-variation-settings 0.4s ease-in-out;
+}
+
+.lucid-menu-link:hover,
+.lucid-menu-link[data-active] {
+  font-variation-settings: 'wdth' 200;
+}
+
+/* You-are-here marker: a petal-pink dot from the blossom palette, hung in the
+   left margin so the label itself stays optically centered. */
+.lucid-menu-link[data-active]::before {
+  content: '';
+  position: absolute;
+  left: -0.34em;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.13em;
+  height: 0.13em;
+  border-radius: 50%;
+  background: #e76aa2;
+}
+
+.lucid-menu a:focus-visible,
+.lucid-menu-button:focus-visible {
+  outline: 2px solid var(--text-display);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 h1 {
   font-family: 'fits', serif;
   font-weight: 100;
