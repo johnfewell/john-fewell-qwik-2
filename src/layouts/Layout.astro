@@ -2,6 +2,8 @@
 import '~/assets/styles/global.css';
 import '~/assets/styles/prism.css';
 
+import { ClientRouter } from 'astro:transitions';
+
 import Header from '~/components/widgets/Header';
 import { SITE } from '~/config.mjs';
 
@@ -30,14 +32,20 @@ const canonical = new URL(Astro.url.pathname, SITE.origin);
     <link rel="canonical" href={String(canonical)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content={description} />
+    <ClientRouter />
     <script is:inline>
-      if (localStorage.theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else if (typeof localStorage.theme === 'undefined') {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.classList.add('dark');
-        }
-      }
+      const applyTheme = () => {
+        const stored = localStorage.theme;
+        const dark =
+          stored === 'dark' ||
+          (typeof stored === 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+      };
+      applyTheme();
+      // The ClientRouter resets <html>'s attributes to the server-rendered
+      // version on each swap (which carries no dark class), so re-apply the
+      // theme before the new page paints to avoid flipping to light.
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
   </head>
   <body
