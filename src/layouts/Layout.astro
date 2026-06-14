@@ -47,5 +47,9 @@ const canonical = new URL(Astro.url.pathname, SITE.origin);
     <main>
       <slot />
     </main>
+    <script>
+      import { startConsoleLurker } from '~/components/common/consoleLurker';
+      startConsoleLurker();
+    </script>
   </body>
 </html>
