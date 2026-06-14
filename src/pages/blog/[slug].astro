@@ -5,7 +5,7 @@ import Prism from 'prismjs';
 import md from 'markdown-it';
 import markdownItPrism from 'markdown-it-prism';
 
-import Layout from '~/layouts/Layout.astro';
+import LucidLayout from '~/layouts/LucidLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('post', ({ data }) => !data.draft);
@@ -35,9 +35,10 @@ const mdParser = md({
 const content = mdParser.render(post.body ?? '');
 ---
 
-<Layout
+<LucidLayout
   title={`${post.data.title} — John Fewell`}
   description={post.data.excerpt ?? post.data.description}
+  active="blog"
 >
   <section class="mx-auto py-8 sm:py-16 lg:py-20">
     <article>
@@ -83,4 +84,4 @@ const content = mdParser.render(post.body ?? '');
       />
     </article>
   </section>
-</Layout>
+</LucidLayout>

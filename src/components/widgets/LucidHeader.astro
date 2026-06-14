@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  active?: 'work' | 'about';
+  active?: 'work' | 'about' | 'blog';
 }
 
 const { active } = Astro.props;
@@ -89,16 +89,25 @@ const links = [
 </dialog>
 
 <script>
-  document.getElementById('lucid-theme-toggle')?.addEventListener('click', () => {
-    const dark = document.documentElement.classList.toggle('dark');
-    window.localStorage.theme = dark ? 'dark' : 'light';
-  });
+  // The ClientRouter swaps the header on navigation, so bind via delegation on
+  // document (which persists across swaps) rather than to the toggle/menu
+  // elements directly — otherwise these go dead after the first navigation.
+  document.addEventListener('click', (e) => {
+    if (!(e.target instanceof Element)) return;
+    const el = e.target;
+    const menu = document.querySelector<HTMLDialogElement>('#lucid-menu');
 
-  const menu = document.querySelector<HTMLDialogElement>('#lucid-menu');
-  document.getElementById('lucid-menu-open')?.addEventListener('click', () => menu?.showModal());
-  document.getElementById('lucid-menu-close')?.addEventListener('click', () => menu?.close());
-  // Close when a link is chosen; matters for the mailto link, which doesn't navigate away.
-  menu?.addEventListener('click', (e) => {
-    if (e.target instanceof HTMLAnchorElement) menu.close();
+    if (el.closest('#lucid-theme-toggle')) {
+      const dark = document.documentElement.classList.toggle('dark');
+      window.localStorage.theme = dark ? 'dark' : 'light';
+    } else if (el.closest('#lucid-menu-open')) {
+      menu?.showModal();
+    } else if (el.closest('#lucid-menu-close')) {
+      menu?.close();
+    } else if (el.closest('#lucid-menu') && el.closest('a')) {
+      // Close when a menu link is chosen; matters for the mailto link, which
+      // doesn't navigate away.
+      menu?.close();
+    }
   });
 </script>

@@ -74,6 +74,7 @@
    around an ambient light spot (--mx/--my, driven by a slow JS wander) */
 .lucid-surface {
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   overflow: hidden;
   isolation: isolate; /* contain the front-petal blend to this surface */
@@ -161,6 +162,7 @@
   position: relative;
   z-index: 1;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
