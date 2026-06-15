@@ -105,9 +105,14 @@ const links = [
     } else if (el.closest('#lucid-menu-close')) {
       menu?.close();
     } else if (el.closest('#lucid-menu') && el.closest('a')) {
-      // Close when a menu link is chosen; matters for the mailto link, which
-      // doesn't navigate away.
-      menu?.close();
+      const href = el.closest('a')?.getAttribute('href') ?? '';
+      // For an in-app link, leave the menu up: the ClientRouter fetches the next
+      // page while the menu still covers this one, then the swap brings in a
+      // fresh (closed) dialog right as the new page paints. Closing it here
+      // instead would flash the current page before the navigation lands.
+      // Links that don't navigate in-app (mailto, external) get no swap, so
+      // close the menu now.
+      if (!href.startsWith('/')) menu?.close();
     }
   });
 </script>
