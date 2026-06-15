@@ -39,6 +39,13 @@
   display: block;
 }
 
+/* Reserve the scrollbar gutter on every page so navigating between a scrolling
+   page (the blog) and the non-scrolling ones doesn't shift centered content
+   sideways where the OS uses classic, space-taking scrollbars. */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Lucid (2026 redesign) — semantic tokens */
 :root {
   --text-display: #3c3b3b;
