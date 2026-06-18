@@ -28,7 +28,7 @@
         Let's build something
       </h2>
       <p class="text-base leading-[1.7] max-w-[460px] mt-6 m-0" style="color: var(--text-body)">
-        Open to senior and staff IC roles, fully remote — and always glad to talk about agent systems, AI-native
+        Open to senior and staff IC roles, fully remote, and always glad to talk about agent systems, AI-native
         developer tools, or anything where the LLM meaningfully drives the app.
       </p>
       <div class="mt-10">
@@ -43,42 +43,86 @@
 
     <!-- RIGHT: form -->
     <form id="lucid-contact-form" class="flex flex-col gap-7">
+      <!-- Web3Forms routing key (public-safe; only maps to the destination inbox)
+           and a static subject line for the notification email. -->
+      <input type="hidden" name="access_key" value="a4a0d949-0c71-4e4d-b7e3-755bd70cb510" />
+      <input type="hidden" name="subject" value="New message from johnfewell.com" />
+      <input type="hidden" name="from_name" value="johnfewell.com contact form" />
+      <!-- Honeypot: bots fill every field; humans never see this. A checked value
+           makes Web3Forms silently drop the submission as spam. -->
+      <input type="checkbox" name="botcheck" class="hidden" style="display: none" tabindex="-1" autocomplete="off" />
+
       <div class="flex flex-col gap-[10px]">
         <label class="lucid-label" for="cf-name">Name</label>
-        <input class="lucid-field" id="cf-name" name="name" type="text" />
+        <input class="lucid-field" id="cf-name" name="name" type="text" required />
       </div>
       <div class="flex flex-col gap-[10px]">
         <label class="lucid-label" for="cf-email">Email</label>
-        <input class="lucid-field" id="cf-email" name="email" type="email" />
+        <input class="lucid-field" id="cf-email" name="email" type="email" required />
       </div>
       <div class="flex flex-col gap-[10px]">
         <label class="lucid-label" for="cf-message">Message</label>
-        <textarea class="lucid-field resize-y" id="cf-message" name="message" rows="6"></textarea>
+        <textarea class="lucid-field resize-y" id="cf-message" name="message" rows="6" required></textarea>
       </div>
-      <div>
+      <div class="flex items-center gap-4">
         <button class="lucid-cta" type="submit">Send message</button>
+        <p
+          id="cf-status"
+          role="status"
+          aria-live="polite"
+          class="m-0 text-[15px]"
+          style="color: var(--text-body)"
+        >
+        </p>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-  // Submit events bubble to document, and delegation here survives the
-  // ClientRouter's DOM swaps (binding to the form node directly would go dead
-  // after the first navigation). Builds a prefilled mailto from the fields.
-  document.addEventListener('submit', (e) => {
-    const form = e.target;
-    if (!(form instanceof HTMLFormElement) || form.id !== 'lucid-contact-form') return;
-    e.preventDefault();
+  // Bind on astro:page-load (fires on first load AND after every ClientRouter
+  // navigation) rather than at module-execution time. A component's module
+  // script isn't reliably re-run on SPA navigations, so binding once at import
+  // time would leave the form dead when reaching /contact via an in-app nav click.
+  // Each navigation swaps in a fresh form node, so we bind straight to it and
+  // mark it to avoid double-binding if the event fires twice for one node.
+  const initContactForm = () => {
+    const form = document.getElementById('lucid-contact-form');
+    if (!(form instanceof HTMLFormElement) || form.dataset.bound) return;
+    form.dataset.bound = 'true';
 
-    const value = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? '';
-    const name = value('name');
-    const email = value('email');
-    const message = value('message');
+    const status = document.getElementById('cf-status');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const setStatus = (msg: string) => {
+      if (status) status.textContent = msg;
+    };
 
-    const from = name || email ? `From: ${name} (${email})\n\n` : '';
-    const body = encodeURIComponent(from + message);
-    const subject = encodeURIComponent('Hello from johnfewell.com');
-    window.location.href = `mailto:fewell@gmail.com?subject=${subject}&body=${body}`;
-  });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (button) button.disabled = true;
+      setStatus('Sending…');
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          form.reset();
+          setStatus('Thanks, your message is on its way.');
+        } else {
+          setStatus(data.message || 'Something went wrong. Please email me directly.');
+        }
+      } catch {
+        setStatus('Network error. Please email me directly.');
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  };
+
+  document.addEventListener('astro:page-load', initContactForm);
 </script>
