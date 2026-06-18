@@ -1,0 +1,10 @@
+---
+import LucidLayout from '~/layouts/LucidLayout.astro';
+import Contact from '~/components/widgets/Contact.astro';
+
+import { SITE } from '~/config.mjs';
+---
+
+<LucidLayout title={SITE.title} description={SITE.description} active="contact">
+  <Contact />
+</LucidLayout>

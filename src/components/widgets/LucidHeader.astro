@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  active?: 'work' | 'about' | 'blog';
+  active?: 'work' | 'about' | 'blog' | 'contact';
 }
 
 const { active } = Astro.props;
@@ -9,7 +9,7 @@ const links = [
   { href: '/work/', label: 'Work', key: 'work' },
   { href: '/about/', label: 'About', key: 'about' },
   { href: '/blog/', label: 'Blog', key: 'blog' },
-  { href: 'mailto:fewell@gmail.com', label: 'Contact', key: 'contact' },
+  { href: '/contact/', label: 'Contact', key: 'contact' },
 ];
 ---
 

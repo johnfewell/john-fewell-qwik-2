@@ -1,0 +1,20 @@
+---
+const stack = [
+  'TypeScript',
+  'Angular 8–20',
+  'React',
+  'NestJS',
+  'NgRx Signal Store',
+  'Node.js',
+  'LangGraph',
+  'Postgres',
+  'Flutter',
+];
+---
+
+<div class="lucid-section grid gap-8 md:gap-12 md:grid-cols-[230px_1fr] items-start pt-12">
+  <div class="eyebrow-sm">Stack</div>
+  <div class="flex flex-wrap gap-3">
+    {stack.map((item) => <span class="lucid-pill">{item}</span>)}
+  </div>
+</div>
