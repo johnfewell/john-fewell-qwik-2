@@ -1,0 +1,84 @@
+---
+---
+
+<!-- HERO -->
+<section class="flex flex-col px-5 sm:px-12 pb-12 min-h-[calc(100svh-72px)]">
+  <div class="flex-1 flex items-center justify-center overflow-hidden">
+    <h1
+      class="display-text tracking-wider leading-none moveup-text text-center"
+      style="font-size: clamp(64px, 13vw, 210px)"
+    >
+      CONTACT
+    </h1>
+  </div>
+  <div class="overflow-hidden">
+    <p class="moveup-text m-0 text-[15px] leading-[1.6] max-w-[340px]" style="color: var(--text-body)">
+      Got a role, a project, or an agent-systems problem worth talking through? Drop me a line.
+    </p>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="px-5 sm:px-12 pt-24 pb-[110px]">
+  <div class="grid gap-12 lg:gap-[72px] lg:grid-cols-2 items-start">
+    <!-- LEFT: intro -->
+    <div>
+      <div class="eyebrow-sm mb-[18px]">Contact</div>
+      <h2 class="display-text moveup-text" style="font-size: clamp(44px, 6vw, 84px); line-height: 1.05">
+        Let's build something
+      </h2>
+      <p class="text-base leading-[1.7] max-w-[460px] mt-6 m-0" style="color: var(--text-body)">
+        Open to senior and staff IC roles, fully remote — and always glad to talk about agent systems, AI-native
+        developer tools, or anything where the LLM meaningfully drives the app.
+      </p>
+      <div class="mt-10">
+        <div class="eyebrow-sm mb-[10px]">Email</div>
+        <a
+          href="mailto:fewell@gmail.com"
+          class="text-base underline"
+          style="color: var(--text-display); text-underline-offset: 3px">fewell@gmail.com</a
+        >
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <form id="lucid-contact-form" class="flex flex-col gap-7">
+      <div class="flex flex-col gap-[10px]">
+        <label class="lucid-label" for="cf-name">Name</label>
+        <input class="lucid-field" id="cf-name" name="name" type="text" />
+      </div>
+      <div class="flex flex-col gap-[10px]">
+        <label class="lucid-label" for="cf-email">Email</label>
+        <input class="lucid-field" id="cf-email" name="email" type="email" />
+      </div>
+      <div class="flex flex-col gap-[10px]">
+        <label class="lucid-label" for="cf-message">Message</label>
+        <textarea class="lucid-field resize-y" id="cf-message" name="message" rows="6"></textarea>
+      </div>
+      <div>
+        <button class="lucid-cta" type="submit">Send message</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Submit events bubble to document, and delegation here survives the
+  // ClientRouter's DOM swaps (binding to the form node directly would go dead
+  // after the first navigation). Builds a prefilled mailto from the fields.
+  document.addEventListener('submit', (e) => {
+    const form = e.target;
+    if (!(form instanceof HTMLFormElement) || form.id !== 'lucid-contact-form') return;
+    e.preventDefault();
+
+    const value = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? '';
+    const name = value('name');
+    const email = value('email');
+    const message = value('message');
+
+    const from = name || email ? `From: ${name} (${email})\n\n` : '';
+    const body = encodeURIComponent(from + message);
+    const subject = encodeURIComponent('Hello from johnfewell.com');
+    window.location.href = `mailto:fewell@gmail.com?subject=${subject}&body=${body}`;
+  });
+</script>

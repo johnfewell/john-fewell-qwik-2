@@ -53,13 +53,12 @@ html {
   --text-muted: #4b5563;
   --surface-button: #3c3b3b;
   --text-on-dark: #ece7e1;
-  --lucid-overlay-bg: linear-gradient(
-      0deg,
-      rgba(218, 169, 131, 1),
-      rgba(228, 234, 170, 0.46)
-    ),
+  --lucid-overlay-bg:
+    linear-gradient(0deg, rgba(218, 169, 131, 1), rgba(228, 234, 170, 0.46)),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 167 167' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='8.89' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   --lucid-overlay-filter: contrast(140%) brightness(100%);
+  --lucid-rule: rgba(60, 59, 59, 0.2);
+  --lucid-pill-border: rgba(60, 59, 59, 0.38);
 }
 
 .dark {
@@ -68,11 +67,10 @@ html {
   --text-muted: #94909b;
   --surface-button: #ece7e1;
   --text-on-dark: #16161f;
-  --lucid-overlay-bg: linear-gradient(
-      295deg,
-      rgba(4, 4, 18, 1),
-      rgba(70, 74, 119, 0.38)
-    ),
+  --lucid-rule: rgba(236, 231, 225, 0.18);
+  --lucid-pill-border: rgba(236, 231, 225, 0.34);
+  --lucid-overlay-bg:
+    linear-gradient(295deg, rgba(4, 4, 18, 1), rgba(70, 74, 119, 0.38)),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 314 314' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   --lucid-overlay-filter: contrast(180%) brightness(100%);
 }
@@ -93,10 +91,16 @@ html {
 /* Sakura Fall: falling-blossom canvas above the haze, below the content
    (see design/sakura-fall-philosophy.md) */
 .lucid-petals {
-  position: absolute;
-  inset: 0;
+  /* Pinned to the viewport, not the surface: long pages would otherwise stretch
+     the canvas to full page height — distorting the blossoms (and blowing past
+     the browser's max-canvas-area on very tall pages). Fixed keeps the field one
+     screen tall and constant no matter the page length. */
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
   pointer-events: none;
 }
 
@@ -106,10 +110,13 @@ html {
    mode inverts the contrast (light text on dark ground), so it switches to a
    darken blend that tints the letters instead. */
 .lucid-petals-front {
-  position: absolute;
-  inset: 0;
+  /* Same viewport pinning as .lucid-petals — see note there. */
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
   z-index: 2;
   pointer-events: none;
   /* screen (not plus-lighter) keeps the glow from blooming and overpowering the
@@ -191,12 +198,14 @@ html {
 }
 
 .display-text {
+  font-family: "fits", serif;
+  font-weight: 100;
   color: var(--text-display);
 }
 
 .eyebrow,
 .eyebrow-sm {
-  font-family: 'mits', serif;
+  font-family: "mits", serif;
   font-weight: 100;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -212,7 +221,7 @@ html {
 }
 
 .lucid-nav-link {
-  font-family: 'mits', serif;
+  font-family: "mits", serif;
   font-size: 12px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -298,25 +307,25 @@ html {
 
 .lucid-menu-link {
   position: relative;
-  font-family: 'fits', serif;
+  font-family: "fits", serif;
   font-weight: 100;
   font-size: 1em;
   line-height: 1.05;
   color: var(--text-display);
   text-decoration: none;
-  font-variation-settings: 'wdth' 100;
+  font-variation-settings: "wdth" 100;
   transition: font-variation-settings 0.4s ease-in-out;
 }
 
 .lucid-menu-link:hover,
 .lucid-menu-link[data-active] {
-  font-variation-settings: 'wdth' 200;
+  font-variation-settings: "wdth" 200;
 }
 
 /* You-are-here marker: a petal-pink dot from the blossom palette, hung in the
    left margin so the label itself stays optically centered. */
 .lucid-menu-link[data-active]::before {
-  content: '';
+  content: "";
   position: absolute;
   left: -0.34em;
   top: 50%;
@@ -335,15 +344,15 @@ html {
 }
 
 h1 {
-  font-family: 'fits', serif;
+  font-family: "fits", serif;
   font-weight: 100;
   font-size: 11vw;
-  font-variation-settings: 'wdth' 100;
+  font-variation-settings: "wdth" 100;
   transition: all 0.4s ease-in-out;
 }
 h1:hover,
 h1.be-bold {
-  font-variation-settings: 'wdth' 200;
+  font-variation-settings: "wdth" 200;
 }
 
 @media screen and (min-width: 2100px) {
@@ -353,24 +362,24 @@ h1.be-bold {
 }
 
 @font-face {
-  font-family: 'fits';
-  src: url('../fonts/fits.ttf') format('truetype');
+  font-family: "fits";
+  src: url("../fonts/fits.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
-  font-family: 'mits';
-  src: url('../fonts/mits.ttf') format('truetype');
+  font-family: "mits";
+  src: url("../fonts/mits.ttf") format("truetype");
   font-weight: 100;
 }
 
 .name-display {
-  font-family: 'mits', serif;
+  font-family: "mits", serif;
   font-size: 1rem;
 }
 
 .small-heading {
-  font-family: 'mits', serif;
+  font-family: "mits", serif;
   font-size: 0.8rem;
 }
 
@@ -380,7 +389,7 @@ h1.be-bold {
   background-color: var(--surface-button);
   -webkit-transition: padding 250ms ease-in-out;
   transition: padding 250ms ease-in-out;
-  font-family: 'mits', sans-serif;
+  font-family: "mits", sans-serif;
   color: var(--text-on-dark);
   font-size: 11px;
   font-weight: 400;
@@ -392,6 +401,85 @@ h1.be-bold {
   padding-right: 100px;
   padding-left: 100px;
   text-decoration: none;
+}
+
+/* Lucid content pages (Work / About / Contact): shared primitives so the
+   scrolling sections below each hero stay consistent across the three pages. */
+
+/* Section divider rule between content blocks. */
+.lucid-section {
+  border-top: 1px solid var(--lucid-rule);
+}
+
+/* Display-weight subheading — the 'fits' face at light weight, used for project
+   titles, "how I work" headings and the experience rows. */
+.lucid-subhead {
+  font-family: "fits", serif;
+  font-weight: 100;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  color: var(--text-display);
+}
+
+/* Skill / stack pill. */
+.lucid-pill {
+  font-size: 13px;
+  color: var(--text-display);
+  padding: 7px 17px;
+  border: 1px solid var(--lucid-pill-border);
+  border-radius: 50px;
+}
+
+/* Solid CTA button (Get in touch / Send message). Reuses the themed button
+   surface so it inverts cleanly between day and night like .fancy-button. */
+.lucid-cta {
+  display: inline-block;
+  background: var(--surface-button);
+  color: var(--text-on-dark);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    transform 200ms ease,
+    filter 200ms ease;
+}
+
+.lucid-cta:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.94);
+  text-decoration: none;
+}
+
+/* Contact form field. */
+.lucid-field {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-display);
+  background: transparent;
+  border: 1px solid var(--lucid-pill-border);
+  border-radius: 8px;
+  padding: 13px 14px;
+  outline: none;
+  transition: border-color 150ms ease;
+}
+
+.lucid-field:focus {
+  border-color: var(--text-display);
+}
+
+.lucid-label {
+  font-family: "mits", serif;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-display);
 }
 
 html,

@@ -1,65 +1,76 @@
 ---
-import face from '~/assets/images/home-computer.webp';
+import LucidStack from '~/components/widgets/LucidStack.astro';
+import LucidExperience from '~/components/widgets/LucidExperience.astro';
+import LucidLetsTalk from '~/components/widgets/LucidLetsTalk.astro';
+
+const principles = [
+  {
+    title: 'The LLM is part of the architecture',
+    desc: 'I build chat-driven UIs where the model is a first-class part of the app — LangGraph orchestration and typed, discriminated-union action surfaces for agent-driven state — not a chat bubble bolted onto the side.',
+  },
+  {
+    title: 'State you can reason about',
+    desc: 'NgRx Signal Store as the foundation, with the eval and verification infrastructure that keeps agent behavior honest as the system grows. Predictable data flow beats clever data flow.',
+  },
+  {
+    title: 'Production over prototypes',
+    desc: 'Six-hundred-component Angular upgrades, legacy AngularJS integrations inside .NET, geospatial platforms, end-to-end tests in Playwright. The work has to hold up under real users and real teams.',
+  },
+];
 ---
 
-<section class="relative flex-1 flex flex-col justify-center px-5 sm:px-12 py-10 min-h-0">
-  <img
-    src={face.src}
-    width={480}
-    height={480}
-    alt=""
-    loading="lazy"
-    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[clamp(320px,42vw,560px)] opacity-[0.1] pointer-events-none select-none"
-  />
-
-  <div
-    class="relative grid items-start gap-y-10 lg:gap-y-0 lg:grid-cols-[0.85fr_1.15fr]"
-    style="column-gap: clamp(40px, 7vw, 112px)"
-  >
-    <!-- Anchor: display word + lede -->
-    <div class="flex flex-col gap-6 lg:gap-7">
-      <div class="overflow-hidden">
-        <h1
-          class="display-text leading-[0.85] moveup-text"
-          style="font-size: clamp(72px, 11vw, 148px); letter-spacing: 0.04em"
-        >
-          About
-        </h1>
-      </div>
-      <p
-        class="m-0 max-w-[22ch]"
-        style="font-family: 'fits', serif; font-weight: 400; color: var(--text-display); font-size: clamp(20px, 2.4vw, 28px); line-height: 1.35; letter-spacing: 0.005em"
-      >
-        I'm John — a senior full-stack engineer building agentic systems and production web apps.
-      </p>
-    </div>
-
-    <!-- Reading column: bio + skills -->
-    <div class="flex flex-col gap-8 max-w-[56ch]">
-      <div class="flex flex-col gap-4">
-        <p class="text-[15px] leading-[1.65] m-0 text-pretty" style="color: var(--text-body)">
-          I build LLM-driven tools, modern front ends, and the glue between them: LangGraph workflows, constrained action
-          spaces, typed state surfaces, eval infrastructure, and production Angular/React applications.
-        </p>
-        <p class="text-[15px] leading-[1.65] m-0 text-pretty" style="color: var(--text-body)">
-          Most recently at Rohirrim AI, I built a LangGraph-based test-failure triage agent, delivered most of a NextGen
-          frontend prototype, migrated document processing from NestJS to FastAPI with Docling, and owned Angular
-          framework upgrades through v20.
-        </p>
-      </div>
-      <div class="flex flex-col gap-2">
-        <div class="eyebrow-sm">Skills</div>
-        <div class="text-sm leading-[1.7]" style="color: var(--text-body)">
-          LLM Agents / LangGraph / TypeScript / Angular 4–20 / React / Python / FastAPI / Node.js / NgRx SignalStore /
-          TanStack Query / RxJS / Playwright / Docker / AWS / REST APIs
-        </div>
-      </div>
-    </div>
-
-    <!-- CTAs: anchored bottom-left, span full width so mobile order stays About → bio → actions -->
-    <div class="flex flex-wrap gap-4 mt-2 lg:mt-14 lg:col-span-2">
-      <a class="fancy-button" href="/files/John_Fewell-Resume.pdf" target="_blank" rel="noreferrer"> Resume </a>
-      <a class="fancy-button" href="mailto:fewell@gmail.com"> Contact </a>
-    </div>
+<!-- HERO -->
+<section class="flex flex-col px-5 sm:px-12 pb-12 min-h-[calc(100svh-72px)]">
+  <div class="flex-1 flex items-center justify-center overflow-hidden">
+    <h1
+      class="display-text tracking-wider leading-none moveup-text text-center"
+      style="font-size: clamp(90px, 15vw, 240px)"
+    >
+      ABOUT
+    </h1>
+  </div>
+  <div class="overflow-hidden">
+    <p class="moveup-text m-0 text-[15px] leading-[1.6] max-w-[360px]" style="color: var(--text-body)">
+      I'm John — a developer, maker and problem solver, based in Toronto.
+    </p>
   </div>
 </section>
+
+<!-- CONTENT -->
+<div class="px-5 sm:px-12 pb-[110px]">
+  <!-- Heading -->
+  <div class="pt-24">
+    <div class="eyebrow-sm mb-[18px]">About</div>
+    <h2 class="display-text moveup-text" style="font-size: clamp(44px, 6.5vw, 92px); line-height: 1.05">
+      Engineer for systems that have to work
+    </h2>
+    <p class="text-base leading-[1.7] max-w-[600px] mt-[26px] m-0" style="color: var(--text-body)">
+      I'm a senior full-stack engineer based in Toronto with over a decade of shipping production Angular and TypeScript
+      applications. These days I'm focused on LLM agent systems and the architecture that makes them actually work in
+      production — currently at Rohirrim, previously at 3Pillar Global.
+    </p>
+  </div>
+
+  <!-- How I work -->
+  <div class="lucid-section grid gap-8 md:gap-12 md:grid-cols-[230px_1fr] items-start pt-12 mt-20">
+    <div class="eyebrow-sm">How I work</div>
+    <div class="flex flex-col gap-11">
+      {
+        principles.map((p) => (
+          <div>
+            <h3 class="lucid-subhead m-0" style="font-size: clamp(24px, 2.5vw, 34px); line-height: 1.1">
+              {p.title}
+            </h3>
+            <p class="text-[15px] leading-[1.65] max-w-[620px] mt-[14px] m-0" style="color: var(--text-body)">
+              {p.desc}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="mt-12"><LucidStack /></div>
+  <div class="mt-12"><LucidExperience /></div>
+  <LucidLetsTalk />
+</div>

@@ -1,40 +1,85 @@
 ---
+import LucidStack from '~/components/widgets/LucidStack.astro';
+import LucidExperience from '~/components/widgets/LucidExperience.astro';
+import LucidLetsTalk from '~/components/widgets/LucidLetsTalk.astro';
+
 const projects = [
-  { title: 'TEST TRIAGE AGENT', meta: '01 / 2025–2026 — LangGraph / Python / LLM Evals / Automation' },
   {
-    title: 'NEXTGEN FRONTEND',
-    meta: '02 / 2025–2026 — Angular / TypeScript / NgRx SignalStore / TanStack Query',
+    eyebrow: '01 — Rohirrim',
+    title: 'Agent-native interfaces',
+    desc: 'Chat-driven UIs where the model is a first-class part of the app — LangGraph orchestration and typed, discriminated-union action surfaces for agent-driven state, not a chat bubble bolted onto the side.',
+    tech: 'LangGraph / TypeScript / NgRx Signal Store',
   },
   {
-    title: 'ANGULAR MAP MODERNIZATION',
-    meta: '03 / 2023–2025 — AngularJS / Angular 15 / OpenLayers / .NET',
+    eyebrow: '02 — Esri Canada',
+    title: 'Ratio.City',
+    desc: 'City-scale mapping and analysis tools for urban planning — geospatial platforms built for real planners working with real municipal data.',
+    tech: 'Angular / Geospatial / RxJS',
+  },
+  {
+    eyebrow: '03 — 3Pillar Global',
+    title: 'Large-scale Angular upgrades',
+    desc: 'Six-hundred-component Angular migrations and legacy AngularJS-in-.NET integrations, kept honest with end-to-end Playwright tests.',
+    tech: 'Angular / .NET / Playwright',
   },
 ];
 ---
 
-<div class="flex-1 flex flex-col px-5 sm:px-12 pb-11 min-h-0">
-  <div class="flex justify-center flex-none pt-2">
-    <div class="eyebrow-sm">Work — selected projects</div>
+<!-- HERO -->
+<section class="flex flex-col px-5 sm:px-12 pb-12 min-h-[calc(100svh-72px)]">
+  <div class="flex-1 flex items-center justify-center overflow-hidden">
+    <h1
+      class="display-text tracking-wider leading-none moveup-text text-center"
+      style="font-size: clamp(96px, 17vw, 260px)"
+    >
+      WORK
+    </h1>
   </div>
-  <div
-    class="flex-1 flex flex-col justify-center items-center min-h-0 overflow-hidden"
-    style="gap: clamp(20px, 3.5vh, 36px)"
-  >
-    {
-      projects.map((project) => (
-        <div class="flex flex-col items-center gap-2">
-          <h1
-            class="display-text tracking-wider leading-none moveup-text text-center cursor-pointer"
-            style="font-size: clamp(48px, 7vw, 110px)"
-          >
+  <div class="overflow-hidden">
+    <p class="moveup-text m-0 text-[15px] leading-[1.6] max-w-[320px]" style="color: var(--text-body)">
+      Selected projects from a decade of shipping production software — agent systems, geospatial platforms, and modern
+      web apps.
+    </p>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="px-5 sm:px-12 pb-[110px]">
+  <!-- Selected work -->
+  <div class="pt-24">
+    <div class="eyebrow-sm mb-[18px]">Selected work</div>
+    <h2 class="display-text moveup-text" style="font-size: clamp(44px, 6.5vw, 92px); line-height: 1.05">
+      Things I've shipped
+    </h2>
+    <p class="text-[15px] leading-[1.65] max-w-[540px] mt-[22px] m-0" style="color: var(--text-body)">
+      A few projects that show how I work — production systems where the engineering had to hold up under real users,
+      real teams, and real complexity.
+    </p>
+  </div>
+
+  {
+    projects.map((project, i) => (
+      <div
+        class="lucid-section grid gap-6 md:gap-12 md:grid-cols-[230px_1fr] items-start pt-10"
+        style={i === 0 ? 'margin-top: 56px' : 'margin-top: 40px'}
+      >
+        <div class="eyebrow-sm">{project.eyebrow}</div>
+        <div>
+          <h3 class="lucid-subhead m-0" style="font-size: clamp(28px, 2.8vw, 40px)">
             {project.title}
-          </h1>
-          <div class="eyebrow-sm opacity-[0.85] text-center">{project.meta}</div>
+          </h3>
+          <p class="text-[15px] leading-[1.65] max-w-[560px] mt-[14px] m-0" style="color: var(--text-body)">
+            {project.desc}
+          </p>
+          <div class="text-[13px] mt-4" style="color: var(--text-muted); letter-spacing: 0.02em">
+            {project.tech}
+          </div>
         </div>
-      ))
-    }
-  </div>
-  <div class="flex justify-center flex-none">
-    <a class="fancy-button" href="https://github.com/johnfewell" target="_blank" rel="noreferrer"> GitHub </a>
-  </div>
+      </div>
+    ))
+  }
+
+  <div class="mt-[72px]"><LucidStack /></div>
+  <div class="mt-12"><LucidExperience /></div>
+  <LucidLetsTalk />
 </div>
