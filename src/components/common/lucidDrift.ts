@@ -1,5 +1,5 @@
 /**
- * Lucid Drift — generative background for the Lucid surface.
+ * Lucid Drift: generative background for the Lucid surface.
  *
  * Wisps surrender to a slowly metamorphosing noise field and leave additive
  * trails that are gradually "forgotten" (alpha erosion keeps the canvas

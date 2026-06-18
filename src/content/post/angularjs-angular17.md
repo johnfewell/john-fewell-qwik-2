@@ -24,7 +24,7 @@ tags:
 
 [TL;DR Just Show Me The Demo](#practical-demonstration-todo-mvc-project)
 
-_UPDATE (June 2026): This post was originally written for Angular 17. The demo and code samples are now updated to Angular 22 — the integration technique is unchanged, but the component code now uses signal-based `input()`/`output()` and `effect()` in place of `@Input`/`@Output` and `ngOnChanges`._
+_UPDATE (June 2026): This post was originally written for Angular 17. The demo and code samples are now updated to Angular 22. The integration technique is unchanged, but the component code now uses signal-based `input()`/`output()` and `effect()` in place of `@Input`/`@Output` and `ngOnChanges`._
 
 In the web development landscape, technologies evolve rapidly, leaving a trail of legacy systems in their wake. AngularJS, despite being deprecated several years ago, has continued to exhibit remarkable resilience. Its popularity, evidenced by weekly download rates hovering around half a million until recently, signifies a persistent presence in the industry. This enduring usage of AngularJS is juxtaposed with the rising popularity of its successor, Angular 2+.
 
@@ -178,9 +178,9 @@ Here, we have two signal-based properties (this is where the original Angular 17
 
 1. **state**: A signal input created with the `input()` function. Calling `this.state()` returns the latest value the parent has pushed in. The type is `Todo[] | string` because of an AngularJS quirk we'll handle below.
 
-2. **notify**: An output created with the `output()` function. It raises custom events carrying an array of Todo objects that can be listened to by a parent — or, packaged as a custom element, by anything in the DOM.
+2. **notify**: An output created with the `output()` function. It raises custom events carrying an array of Todo objects that can be listened to by a parent (or, packaged as a custom element, by anything in the DOM).
 
-The synchronization logic lives in two `effect()`s in the constructor. The first handles inbound changes — it replaces the `ngOnChanges` lifecycle hook from the original version of this post:
+The synchronization logic lives in two `effect()`s in the constructor. The first handles inbound changes: it replaces the `ngOnChanges` lifecycle hook from the original version of this post:
 
 ```typescript
   constructor() {
@@ -200,9 +200,9 @@ The synchronization logic lives in two `effect()`s in the constructor. The first
     });
 ```
 
-Because the effect reads `this.state()`, it automatically re-runs every time AngularJS pushes a new value into the element. The digest-cycle quirk from the original post is still with us: when the element is first compiled, the `state` attribute arrives as the literal string `'stateObject'`, and we only get the actual object on the next digest cycle — hence the guard (and the `Todo[] | string` input type). Once we have a real value, it's parsed as an array of `Todo` objects using the zod library. If the parsing is successful, it updates the todos in the repository by calling `setTodos`; if it fails, it logs an error.
+Because the effect reads `this.state()`, it automatically re-runs every time AngularJS pushes a new value into the element. The digest-cycle quirk from the original post is still with us: when the element is first compiled, the `state` attribute arrives as the literal string `'stateObject'`, and we only get the actual object on the next digest cycle, hence the guard (and the `Todo[] | string` input type). Once we have a real value, it's parsed as an array of `Todo` objects using the zod library. If the parsing is successful, it updates the todos in the repository by calling `setTodos`; if it fails, it logs an error.
 
-The second effect handles outbound changes — it replaces the constructor's `todos$` subscription:
+The second effect handles outbound changes: it replaces the constructor's `todos$` subscription:
 
 ```typescript
     // Outbound: notify AngularJS when our store diverges from the state it
@@ -217,7 +217,7 @@ The second effect handles outbound changes — it replaces the constructor's `to
 }
 ```
 
-Whenever the todo store changes, this effect checks whether the new state differs from the state AngularJS last gave us, and emits it through `notify` if so. Note the `untracked()` wrapper around `state`: we want to _read_ the input for the comparison without making it a dependency of the effect — otherwise inbound updates from AngularJS would also re-trigger the outbound check. This is exactly the kind of dependency control that `ngOnChanges` and manual subscriptions made awkward.
+Whenever the todo store changes, this effect checks whether the new state differs from the state AngularJS last gave us, and emits it through `notify` if so. Note the `untracked()` wrapper around `state`: we want to _read_ the input for the comparison without making it a dependency of the effect. Otherwise inbound updates from AngularJS would also re-trigger the outbound check. This is exactly the kind of dependency control that `ngOnChanges` and manual subscriptions made awkward.
 
 The `on-notify` attribute in the HTML element corresponds to the `notify` output in the Angular component.
 
@@ -229,4 +229,4 @@ In the component, `notify` is the output that emits the event, and Angular Eleme
 
 ## Performance Insights
 
-An analysis of the package sizes revealed a negligible difference between the two frameworks. As of the Angular 22 update, the entire modern Angular bundle for this demo (main + polyfills) transfers around 80kb compressed — still in the same ballpark as the AngularJS payload it sits inside.
+An analysis of the package sizes revealed a negligible difference between the two frameworks. As of the Angular 22 update, the entire modern Angular bundle for this demo (main + polyfills) transfers around 80kb compressed, still in the same ballpark as the AngularJS payload it sits inside.
