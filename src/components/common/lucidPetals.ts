@@ -1,5 +1,5 @@
 /**
- * Sakura Fall — generative falling-blossom background for the Lucid surface.
+ * Sakura Fall: generative falling-blossom background for the Lucid surface.
  *
  * Petals are rigid bodies surrendered to gravity, a shared noise wind, and
  * per-petal harmonic tumble. No trails, no loops: the renderer draws only the
@@ -40,7 +40,7 @@ export function startLucidPetals(canvas: HTMLCanvasElement, frontCanvas?: HTMLCa
   if (!ctx) return;
   const ctxFront = frontCanvas?.getContext('2d') ?? null;
   // Near petals (depth ≥ this) draw to the front canvas, which is composited
-  // over the text with a blend — a blossom crossing the H1 glows/mixes through
+  // over the text with a blend, so a blossom crossing the H1 glows/mixes through
   // the letterforms instead of flatly occluding them.
   const FRONT_DEPTH = 0.78;
 

@@ -91,7 +91,7 @@ const links = [
 <script>
   // The ClientRouter swaps the header on navigation, so bind via delegation on
   // document (which persists across swaps) rather than to the toggle/menu
-  // elements directly — otherwise these go dead after the first navigation.
+  // elements directly. Otherwise these go dead after the first navigation.
   document.addEventListener('click', (e) => {
     if (!(e.target instanceof Element)) return;
     const el = e.target;

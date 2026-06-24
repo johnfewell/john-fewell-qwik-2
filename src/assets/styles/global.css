@@ -46,7 +46,7 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Lucid (2026 redesign) — semantic tokens */
+/* Lucid (2026 redesign): semantic tokens */
 :root {
   --text-display: #3c3b3b;
   --text-body: #374151;
@@ -92,7 +92,7 @@ html {
    (see design/sakura-fall-philosophy.md) */
 .lucid-petals {
   /* Pinned to the viewport, not the surface: long pages would otherwise stretch
-     the canvas to full page height — distorting the blossoms (and blowing past
+     the canvas to full page height, distorting the blossoms (and blowing past
      the browser's max-canvas-area on very tall pages). Fixed keeps the field one
      screen tall and constant no matter the page length. */
   position: fixed;
@@ -110,7 +110,7 @@ html {
    mode inverts the contrast (light text on dark ground), so it switches to a
    darken blend that tints the letters instead. */
 .lucid-petals-front {
-  /* Same viewport pinning as .lucid-petals — see note there. */
+  /* Same viewport pinning as .lucid-petals; see note there. */
   position: fixed;
   top: 0;
   left: 0;
@@ -261,7 +261,7 @@ html {
 }
 
 /* Mobile menu: a full-screen native dialog (free focus trap + Escape) where the
-   nav links become the page — giant display type in the site's own voice. The
+   nav links become the page: giant display type in the site's own voice. The
    background reuses the themed haze tokens so it still reads as the Lucid world. */
 .lucid-menu[open] {
   position: fixed;
@@ -411,7 +411,7 @@ h1.be-bold {
   border-top: 1px solid var(--lucid-rule);
 }
 
-/* Display-weight subheading — the 'fits' face at light weight, used for project
+/* Display-weight subheading: the 'fits' face at light weight, used for project
    titles, "how I work" headings and the experience rows. */
 .lucid-subhead {
   font-family: "fits", serif;

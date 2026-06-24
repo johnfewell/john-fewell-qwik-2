@@ -69,7 +69,7 @@ const { title, description, active } = Astro.props;
     const petalCanvas = document.querySelector<HTMLCanvasElement>('.lucid-petals');
     const petalFront = document.querySelector<HTMLCanvasElement>('.lucid-petals-front');
     // A persisted canvas carries its running animation across navigations, and the
-    // flag rides along with the node — so we never start a second loop on it. A
+    // flag rides along with the node, so we never start a second loop on it. A
     // genuinely new canvas (e.g. returning from a non-lucid page like 404) has no
     // flag and gets started fresh.
     if (petalCanvas && !petalCanvas.dataset.petalsRunning) {
