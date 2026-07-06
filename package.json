@@ -14,7 +14,7 @@
     "fmt.check": "prettier --check ."
   },
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
